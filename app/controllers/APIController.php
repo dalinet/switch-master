@@ -286,13 +286,15 @@ class APIController extends BaseController {
 
 		// Información del Ad
 		$oAdURL      = Ads::find( $iAdId );
-		$sAdURL      = $oAdURL->image_src;
+
 		$sAdFormato  = $oAdURL->formato;
+		$sAdURL      = $oAdURL->image_src;
 
 		$sAdPrev	 = "";
 
 		if($sAdFormato == 'video' ){
 			$sAdPrev     = $oAdURL->file_src;
+			$sAdURL		 = $oAdURL->url_video_ogg;
 		}else{
 			$sAdPrev     = $oAdURL->image_src;
 		}
@@ -1086,7 +1088,14 @@ class APIController extends BaseController {
 	 * Borra una programacion
 	 */
 	public function videoForScreen($id){
-		
+		$urlAd = CampaignURL::getUrlOggVideo($id);
+		$hostVideo =  $_SERVER['SERVER_NAME'];
+
+		//echo $urlAd[0]->url_ogg;
+
+		$aDataVideo = array("urlVideo" => $urlAd[0]->url_ogg,
+							"host"=>$hostVideo);
+		return View::make('videos.videoView')->with( 'url', $aDataVideo );
 	}
 
 	/**

@@ -26,5 +26,17 @@
 								   ->get();
 			return $result;
 		}
+
+		/**
+		 *  Devuelve  URL de Video OGG 
+		 * @param  [int] $ad_id 
+		 * @return [str] $result
+		 */
+		public static function getUrlOggVideo($idAd){
+			$result = CampaignURL::select('url_ogg')
+							->where('campaign_url_id','=',$idAd)
+							->get();
+			return $result;	
+		}
 	}
 ?>
