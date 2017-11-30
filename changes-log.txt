@@ -1,0 +1,2 @@
+Cambios realizados a Switch
+1.- Cambio de nombre al campo contry_id a country_id de la tabla countries.

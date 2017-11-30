@@ -1,0 +1,17 @@
+{
+  "transport": "ftp",
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "clearchanneltoolbox.com",
+  "port": 21,
+  "username": "jqwetyplocf77",
+  "password": "T0r02$&(FGSDg7/6545%$!!",
+  "target": "/subdomains/cc-swapp-14072015/",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "watch": [],
+  "uploadOnSave":true,
+  "secure":false
+}
