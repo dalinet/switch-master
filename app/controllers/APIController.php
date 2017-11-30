@@ -754,6 +754,7 @@ class APIController extends BaseController {
 
 
 						$sVidNewPath    = $vidRelativePath . $vidFileName . '.mp4';
+						$sVidNewPathOgg = $vidRelativePath . $vidFileName . '.ogg';
 						$sVidNewPathTum = $vidRelativePath . $vidFileNameTum . '.jpg';
 
 						$iTimestamp  = time();
@@ -763,7 +764,7 @@ class APIController extends BaseController {
 							try{
 								/*Se convierte el video en formato OGG*/
 								//$commandToExecute = 'ffmpeg -i '.$sAdAbsolutePath.$sAdFileNewName.'.mp4 -c:a libvorbis -b:a 200k '.$sAdAbsolutePath.$sAdFileNewName.'.ogg';
-								$commandToExecute = 'ffmpeg -i '.$sAdAbsolutePath.$sAdFileNewName.'.'.$sAdExtension.' -codec:v libtheora -qscale:v 5 -codec:a libvorbis -qscale:a 5 '.$sAdAbsolutePath.$sAdFileNewName.'.ogg';
+								$commandToExecute = 'ffmpeg -i '.$vidAbsolutePath.$vidFileName.'.mp4 -codec:v libtheora -qscale:v 5 -codec:a libvorbis -qscale:a 5 '.$vidAbsolutePath.$vidFileName.'.ogg';
 								exec($commandToExecute);
 							}catch(Exception $e){
 								echo $e->getMessage();
@@ -776,6 +777,7 @@ class APIController extends BaseController {
 							$oAd->costumer_id    = $iCostumerId;
 							$oAd->name           = "ad_vid_created_" . time();
 							$oAd->image_src      = $sVidNewPath;
+							$oAd->url_video_ogg = $sVidNewPathOgg;
 							$oAd->file_src       = $sVidNewPathTum;
 							$oAd->file_timestamp = $iTimestamp;
 							$oAd->type           = "created";
@@ -789,12 +791,15 @@ class APIController extends BaseController {
 								
 								// Video
 								rename(  public_path() . $sVidNewPath, $vidAbsolutePath . 'vid_ad_' . $iInsertedID . '.mp4' );
+								rename(  public_path() . $sVidNewPathOgg, $vidAbsolutePath . 'vid_ad_' . $iInsertedID . '.ogg' );
 								
 								// Imagen
 								rename(  public_path() . $sVidNewPathTum, $vidAbsolutePath . 'vid_ad_tum' . $iInsertedID . '.jpg' );
 
 								$oAdUpdate            = Ads::find( $iInsertedID );
 								$oAdUpdate->image_src = $vidRelativePath . 'vid_ad_' . $iInsertedID . '.mp4';
+								$oAdUpdate->url_video_ogg = $vidRelativePath . 'vid_ad_' . $iInsertedID . '.ogg';
+								
 								$oAdUpdate->file_src = $vidRelativePath . 'vid_ad_tum' . $iInsertedID . '.jpg';
 
 								$bUpdated             = $oAdUpdate->save();
